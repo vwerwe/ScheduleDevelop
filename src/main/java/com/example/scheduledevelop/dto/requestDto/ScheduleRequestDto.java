@@ -1,0 +1,14 @@
+package com.example.scheduledevelop.dto.requestDto;
+
+import lombok.Getter;
+
+@Getter
+public class ScheduleRequestDto {
+
+    private String username;
+
+    private String title;
+
+    private String contents;
+
+}
