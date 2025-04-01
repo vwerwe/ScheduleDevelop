@@ -2,6 +2,7 @@ package com.example.scheduledevelop.service;
 
 import com.example.scheduledevelop.dto.responseDto.UserResponseDto;
 import com.example.scheduledevelop.entity.User;
+import com.example.scheduledevelop.exception.DuplicateSignUpException;
 import com.example.scheduledevelop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDto save(String username, String password, String email) {
+
+        userRepository.findUserByUsername(username);
+
+        Optional<User> checkUser = userRepository.findUserByUsernameOrEmail(username, email);
+
+        if (checkUser.isPresent()) {
+            throw new DuplicateSignUpException("이미 사용중인 이메일 또는 이름 입니다");
+        }
+
 
         User user = new User(username, password, email);
 
@@ -68,5 +78,14 @@ public class UserServiceImpl implements UserService{
         User findUser = userRepository.findByIdOrElseThrow(id);
 
         userRepository.delete(findUser);
+    }
+
+    @Override
+    public UserResponseDto login(String email, String password) {
+
+        User findUser = userRepository.findUserByEmailAndPasswordOrElseThrow(email, password);
+
+        return new UserResponseDto(findUser);
+
     }
 }

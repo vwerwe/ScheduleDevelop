@@ -1,6 +1,7 @@
 package com.example.scheduledevelop.service;
 
 import com.example.scheduledevelop.dto.responseDto.UserResponseDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface UserService {
     UserResponseDto updateUsername(Long id, String username, String password);
 
     void delete(Long id);
+
+    UserResponseDto login(String email, String password);
 }

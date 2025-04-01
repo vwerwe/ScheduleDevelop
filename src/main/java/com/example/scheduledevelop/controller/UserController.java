@@ -1,13 +1,17 @@
 package com.example.scheduledevelop.controller;
 
+import com.example.scheduledevelop.dto.requestDto.UserLoginRequestDto;
 import com.example.scheduledevelop.dto.requestDto.UserRequestDto;
 import com.example.scheduledevelop.dto.responseDto.UserResponseDto;
+import com.example.scheduledevelop.loginConst.Const;
 import com.example.scheduledevelop.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 
@@ -19,15 +23,29 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * 유저 생성
+     * 유저 생성(회원가입)
      */
-    @PostMapping
+    @PostMapping("signup")
     public ResponseEntity<UserResponseDto> save(@RequestBody UserRequestDto requestDto) {
 
         UserResponseDto userResponseDto = userService.save(requestDto.getUsername(), requestDto.getPassword(), requestDto.getEmail());
 
         return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
     }
+
+    /** 로그인 기능 */
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserLoginRequestDto requestDto, HttpServletRequest request) {
+
+        UserResponseDto loginUser = userService.login(requestDto.getEmail(), requestDto.getPassword());
+
+        HttpSession session = request.getSession();
+
+        session.setAttribute(Const.LOGIN_USER, loginUser);
+
+        return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
+    }
+
 
     /**
      * 유저 전체 조회
