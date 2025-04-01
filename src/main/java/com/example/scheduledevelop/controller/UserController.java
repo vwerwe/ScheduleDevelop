@@ -1,12 +1,14 @@
 package com.example.scheduledevelop.controller;
 
 import com.example.scheduledevelop.dto.requestDto.UserLoginRequestDto;
+import com.example.scheduledevelop.dto.requestDto.UserNameUpdateRequestDto;
 import com.example.scheduledevelop.dto.requestDto.UserRequestDto;
 import com.example.scheduledevelop.dto.responseDto.UserResponseDto;
 import com.example.scheduledevelop.loginConst.Const;
 import com.example.scheduledevelop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,7 @@ public class UserController {
      * 유저 생성(회원가입)
      */
     @PostMapping("signup")
-    public ResponseEntity<UserResponseDto> save(@RequestBody UserRequestDto requestDto) {
+    public ResponseEntity<UserResponseDto> save(@Valid @RequestBody UserRequestDto requestDto) {
 
         UserResponseDto userResponseDto = userService.save(requestDto.getUsername(), requestDto.getPassword(), requestDto.getEmail());
 
@@ -35,7 +37,7 @@ public class UserController {
 
     /** 로그인 기능 */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserLoginRequestDto requestDto, HttpServletRequest request) {
+    public ResponseEntity<String> login(@Valid @RequestBody UserLoginRequestDto requestDto, HttpServletRequest request) {
 
         UserResponseDto loginUser = userService.login(requestDto.getEmail(), requestDto.getPassword());
 
@@ -73,7 +75,7 @@ public class UserController {
      * 유저 이름 수정
      */
     @PatchMapping("/{id}")
-    public ResponseEntity<UserResponseDto> updateUsername(@PathVariable Long id, @RequestBody UserRequestDto requestDto) {
+    public ResponseEntity<UserResponseDto> updateUsername(@PathVariable Long id, @Valid @RequestBody UserNameUpdateRequestDto requestDto) {
 
         UserResponseDto userResponseDto = userService.updateUsername(id, requestDto.getUsername(), requestDto.getPassword());
 
