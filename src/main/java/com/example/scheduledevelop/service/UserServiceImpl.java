@@ -83,7 +83,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserResponseDto login(String email, String password) {
 
-        User findUser = userRepository.findUserByEmailAndPasswordOrElseThrow(email, password);
+        User findUser = userRepository.findUserByEmailAndPasswordOrElseThrow(email);
+
+        if (!password.equals(findUser.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "잘못된 인력값입니다");
+        }
 
         return new UserResponseDto(findUser);
 
