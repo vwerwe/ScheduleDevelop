@@ -1,5 +1,6 @@
 package com.example.scheduledevelop.controller;
 
+import com.example.scheduledevelop.dto.requestDto.UserCheckPasswordRequest;
 import com.example.scheduledevelop.dto.requestDto.UserLoginRequestDto;
 import com.example.scheduledevelop.dto.requestDto.UserNameUpdateRequestDto;
 import com.example.scheduledevelop.dto.requestDto.UserRequestDto;
@@ -82,10 +83,11 @@ public class UserController {
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
+    /** 유저 삭제 */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id, @RequestBody UserCheckPasswordRequest requestDto) {
 
-        userService.delete(id);
+        userService.delete(id, requestDto.getPassword());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

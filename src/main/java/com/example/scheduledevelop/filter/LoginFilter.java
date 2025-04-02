@@ -31,8 +31,8 @@ public class LoginFilter implements Filter {
             if (session == null || session.getAttribute(Const.LOGIN_USER) == null) {
                 throw new NotLoginException("로그인 해주세요");
             }
+            
 
-            log.info("로그인 성공");
 
         }
 

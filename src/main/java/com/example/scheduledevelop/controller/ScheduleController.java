@@ -41,6 +41,7 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleResponseDtoList, HttpStatus.OK);
     }
 
+    /** 일정 개별 조회 */
     @GetMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> findById(@PathVariable Long id) {
 
@@ -63,6 +64,7 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.OK);
     }
 
+    /** 일정 삭제 */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
 
