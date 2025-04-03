@@ -7,6 +7,7 @@ import com.example.scheduledevelop.repository.CommentRepository;
 import com.example.scheduledevelop.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,5 +38,31 @@ public class CommentServiceImpl implements CommentService{
         List<Comment> commentList = commentRepository.findByScheduleId(scheduleId);
 
         return commentList.stream().map(CommentResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public CommentResponseDto findById(Long id) {
+
+        Comment findComment = commentRepository.findByIdOrElseThrow(id);
+
+        return new CommentResponseDto(findComment);
+    }
+
+    @Override
+    @Transactional
+    public CommentResponseDto update(Long id, String contents) {
+
+        Comment findComment = commentRepository.findByIdOrElseThrow(id);
+
+        findComment.setContents(contents);
+
+        return new CommentResponseDto(findComment);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Comment findComment = commentRepository.findByIdOrElseThrow(id);
+
+        commentRepository.delete(findComment);
     }
 }

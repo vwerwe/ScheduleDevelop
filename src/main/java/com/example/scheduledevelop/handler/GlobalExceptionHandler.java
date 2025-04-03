@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class MyExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicateSignUpException.class)
     public ResponseEntity<String> handlerDuplicateSignUpException(DuplicateSignUpException ex) {

@@ -9,4 +9,10 @@ public interface CommentService {
     CommentResponseDto save(Long scheduleId, String contents);
 
     List<CommentResponseDto> findAll(Long scheduleId);
+
+    CommentResponseDto findById(Long id);
+
+    CommentResponseDto update(Long id, String contents);
+
+    void delete(Long id);
 }
