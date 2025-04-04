@@ -1,16 +1,17 @@
 package com.example.scheduledevelop.service;
 
+import com.example.scheduledevelop.dto.responseDto.PageResponseDto;
 import com.example.scheduledevelop.dto.responseDto.ScheduleResponseDto;
 import com.example.scheduledevelop.entity.Schedule;
 import com.example.scheduledevelop.entity.User;
 import com.example.scheduledevelop.repository.ScheduleRepository;
 import com.example.scheduledevelop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,11 +35,11 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     @Override
-    public List<ScheduleResponseDto> findAll() {
+    public Page<ScheduleResponseDto> findAll(Pageable pageable) {
 
-        List<Schedule> scheduleList = scheduleRepository.findAll();
+        Page<Schedule> schedulePage = scheduleRepository.findAll(pageable);
 
-        return scheduleList.stream().map(ScheduleResponseDto::new).collect(Collectors.toList());
+        return schedulePage.map(ScheduleResponseDto::new);
     }
 
     @Override
@@ -67,5 +68,11 @@ public class ScheduleServiceImpl implements ScheduleService{
 
         scheduleRepository.delete(findSchedule);
 
+    }
+
+    @Override
+    public Page<PageResponseDto> findPageBySchedule(Pageable pageable) {
+
+        return scheduleRepository.findPageBySchedule(pageable);
     }
 }

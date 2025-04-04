@@ -2,15 +2,20 @@ package com.example.scheduledevelop.controller;
 
 import com.example.scheduledevelop.dto.requestDto.ScheduleRequestDto;
 import com.example.scheduledevelop.dto.requestDto.ScheduleUpdateRequestDto;
+import com.example.scheduledevelop.dto.responseDto.PageResponseDto;
 import com.example.scheduledevelop.dto.responseDto.ScheduleResponseDto;
 import com.example.scheduledevelop.service.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/schedules")
@@ -30,15 +35,14 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.CREATED);
     }
 
-    /**
-     * 일정 전체 조회
-     */
+
+    /** 일정 정보 전체조회 페이징 */
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> findAll() {
+    public ResponseEntity<Page<PageResponseDto>> findSchedule(@PageableDefault(size = 10) Pageable pageable) {
 
-        List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAll();
+        Page<PageResponseDto> pageBySchedule = scheduleService.findPageBySchedule(pageable);
 
-        return new ResponseEntity<>(scheduleResponseDtoList, HttpStatus.OK);
+        return new ResponseEntity<>(pageBySchedule, HttpStatus.OK);
     }
 
     /** 일정 개별 조회 */
@@ -72,4 +76,19 @@ public class ScheduleController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+    /**
+     * 일정 전체 조회 페이징
+     */
+//    @GetMapping
+//    public ResponseEntity<List<ScheduleResponseDto>> findAll(@PageableDefault(size = 5) Pageable pageable) {
+//
+//        Page<ScheduleResponseDto> scheduleResponseDtoPage = scheduleService.findAll(pageable);
+//
+//        return new ResponseEntity<>(scheduleResponseDtoPage.getContent(), HttpStatus.OK);
+//    }
+
+
+
 }
