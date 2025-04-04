@@ -10,7 +10,7 @@ public interface ScheduleService {
 
     ScheduleResponseDto save(String username, String title, String contents);
 
-    Page<ScheduleResponseDto> findAll(Pageable pageable);
+//    Page<ScheduleResponseDto> findAll(Pageable pageable);
 
     ScheduleResponseDto findById(Long id);
 

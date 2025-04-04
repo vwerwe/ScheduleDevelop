@@ -35,12 +35,11 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     @Override
-    public Page<ScheduleResponseDto> findAll(Pageable pageable) {
+    public Page<PageResponseDto> findPageBySchedule(Pageable pageable) {
 
-        Page<Schedule> schedulePage = scheduleRepository.findAll(pageable);
-
-        return schedulePage.map(ScheduleResponseDto::new);
+        return scheduleRepository.findPageBySchedule(pageable);
     }
+
 
     @Override
     public ScheduleResponseDto findById(Long id) {
@@ -70,9 +69,14 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     }
 
-    @Override
-    public Page<PageResponseDto> findPageBySchedule(Pageable pageable) {
 
-        return scheduleRepository.findPageBySchedule(pageable);
-    }
+//    @Override
+//    public Page<ScheduleResponseDto> findAll(Pageable pageable) {
+//
+//        Page<Schedule> schedulePage = scheduleRepository.findAll(pageable);
+//
+//        return schedulePage.map(ScheduleResponseDto::new);
+//    }
+
+
 }
